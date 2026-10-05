@@ -29,7 +29,9 @@ class GameController {
     const drawnCard = this.game.drawCard();
     this.view.showDrawnCard(drawnCard);
     this.renderCurrentStats();
-    this.view.appendLog(LOG_MESSAGES.CARD_DRAWN(this.game.currentDay, drawnCard.name));
+    this.view.appendLog(
+      LOG_MESSAGES.CARD_DRAWN(this.game.currentDay, drawnCard.name),
+    );
   }
 
   handleChoiceClick(choiceKey) {
@@ -37,9 +39,14 @@ class GameController {
       return;
     }
     const choice = this.game.getChoiceByKey(choiceKey);
-    this.view.appendLog(LOG_MESSAGES.CHOICE_SELECTED(this.game.currentDay, choice.label));
+    this.view.appendLog(
+      LOG_MESSAGES.CHOICE_SELECTED(this.game.currentDay, choice.label),
+    );
     this.view.showLoading();
-    this.resultTimerId = setTimeout(() => this.applyChoiceResult(choiceKey), RULES.RESULT_DELAY_MS);
+    this.resultTimerId = setTimeout(
+      () => this.applyChoiceResult(choiceKey),
+      RULES.RESULT_DELAY_MS,
+    );
   }
 
   isWaitingForResult() {
@@ -51,7 +58,9 @@ class GameController {
     const playedDay = this.game.currentDay;
     const isStarving = this.game.playDay(choiceKey);
     if (isStarving) {
-      this.view.appendLog(LOG_MESSAGES.STARVATION(playedDay));
+      this.view.appendLog(
+        LOG_MESSAGES.STARVATION(playedDay, RULES.STARVATION_HP_LOSS),
+      );
     }
     this.view.returnToDrawArea();
     this.renderCurrentStats();

@@ -3,7 +3,8 @@ const LOG_MESSAGES = {
   CARD_DRAWN: (day, cardName) => `[Day ${day}] '${cardName}' 카드를 뽑았다.`,
   CHOICE_SELECTED: (day, choiceLabel) =>
     `[Day ${day}] '${choiceLabel}'을(를) 선택했다.`,
-  STARVATION: (day) => `[Day ${day}] 식량이 없어 굶주렸다. 체력이 10 감소했다.`,
+  STARVATION: (day, hpLoss) =>
+    `[Day ${day}] 식량이 없어 굶주렸다. 체력이 ${hpLoss} 감소했다.`,
   GIVE_UP: () => '살아남기를 포기했다...',
   GAME_OVER: (endingName) => `게임 종료: ${endingName}`,
 };
