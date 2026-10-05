@@ -43,10 +43,14 @@ class Game {
     return this.currentCard.choiceB;
   }
 
-  selectChoice(choiceKey) {
-    this.selectedChoice = this.getChoiceByKey(choiceKey);
-    this.phase = PHASES.WAITING_RESULT;
-    return this.selectedChoice;
+  getChoiceByKey(choiceKey) {
+    if (choiceKey === 'A') {
+      return this.currentCard.choiceA;
+    }
+    if (choiceKey === 'B') {
+      return this.currentCard.choiceB;
+    }
+    throw new Error(`알 수 없는 선택지입니다: ${choiceKey}`);
   }
 
   // 기아가 발생했는지 반환한다. (컨트롤러가 기아 로그를 남길 때 사용)
