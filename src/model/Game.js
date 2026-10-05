@@ -2,6 +2,7 @@ import RULES from '../constants/rules.js';
 import ENDINGS from '../constants/endings.js';
 import Player from './Player.js';
 import Deck from './Deck.js';
+import PHASES from '../constants/phases.js';
 
 class Game {
   constructor() {
@@ -16,11 +17,22 @@ class Game {
     this.currentDay = RULES.INITIAL_DAY;
     this.lastPlayedDay = 0;
     this.currentCard = null;
+    this.selectedChoice = null;
     this.endingName = null;
+    this.phase = PHASES.READY_TO_DRAW;
+  }
+
+  canDraw() {
+    return this.phase === PHASES.READY_TO_DRAW;
+  }
+
+  canChoose() {
+    return this.phase === PHASES.CHOOSING;
   }
 
   drawCard() {
     this.currentCard = this.deck.drawCard();
+    this.phase = PHASES.CHOOSING;
     return this.currentCard;
   }
 
@@ -31,15 +43,21 @@ class Game {
     return this.currentCard.choiceB;
   }
 
+  selectChoice(choiceKey) {
+    this.selectedChoice = this.getChoiceByKey(choiceKey);
+    this.phase = PHASES.WAITING_RESULT;
+    return this.selectedChoice;
+  }
+
   // 기아가 발생했는지 반환한다. (컨트롤러가 기아 로그를 남길 때 사용)
-  playDay(choiceKey) {
-    const choice = this.getChoiceByKey(choiceKey);
-    this.player.applyCardEffects(choice.effects);
+  playDay() {
+    this.player.applyCardEffects(this.selectedChoice.effects);
     // 식량 소비 전에 확인해야 "식량이 원래 0이었는지"를 알 수 있다.
     const isStarving = this.player.hasNoFood();
     this.applyDailyRules(isStarving);
     this.moveToNextDay();
     this.endingName = this.findEndingName();
+    this.phase = this.findPhaseAfterDay();
     return isStarving;
   }
 
@@ -94,12 +112,20 @@ class Game {
     return hasEnoughPoints && isAfterRescueDay;
   }
 
+  findPhaseAfterDay() {
+    if (this.endingName !== null) {
+      return PHASES.GAME_OVER;
+    }
+    return PHASES.READY_TO_DRAW;
+  }
+
   giveUp() {
     this.endingName = ENDINGS.GIVE_UP;
+    this.phase = PHASES.GAME_OVER;
   }
 
   isGameOver() {
-    return this.endingName !== null;
+    return this.phase === PHASES.GAME_OVER;
   }
 
   getCurrentStats() {

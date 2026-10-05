@@ -1,0 +1,9 @@
+// 게임의 진행 단계.
+const PHASES = {
+  READY_TO_DRAW: 'READY_TO_DRAW',
+  CHOOSING: 'CHOOSING',
+  WAITING_RESULT: 'WAITING_RESULT',
+  GAME_OVER: 'GAME_OVER',
+};
+
+export default PHASES;

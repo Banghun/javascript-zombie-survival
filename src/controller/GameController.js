@@ -26,37 +26,42 @@ class GameController {
   }
 
   handleDrawClick() {
+    if (!this.game.canDraw()) {
+      // 뽑기에도 가드 추가
+      return;
+    }
+
     const drawnCard = this.game.drawCard();
     this.view.showDrawnCard(drawnCard);
     this.renderCurrentStats();
+
     this.view.appendLog(
       LOG_MESSAGES.CARD_DRAWN(this.game.currentDay, drawnCard.name),
     );
   }
 
   handleChoiceClick(choiceKey) {
-    if (this.isWaitingForResult()) {
+    if (!this.game.canChoose()) {
       return;
     }
-    const choice = this.game.getChoiceByKey(choiceKey);
+
+    const choice = this.game.selectChoice(choiceKey);
     this.view.appendLog(
       LOG_MESSAGES.CHOICE_SELECTED(this.game.currentDay, choice.label),
     );
+
     this.view.showLoading();
+
     this.resultTimerId = setTimeout(
-      () => this.applyChoiceResult(choiceKey),
+      () => this.applyChoiceResult(),
       RULES.RESULT_DELAY_MS,
     );
   }
 
-  isWaitingForResult() {
-    return this.resultTimerId !== null;
-  }
-
-  applyChoiceResult(choiceKey) {
+  applyChoiceResult() {
     this.resultTimerId = null;
     const playedDay = this.game.currentDay;
-    const isStarving = this.game.playDay(choiceKey);
+    const isStarving = this.game.playDay();
     if (isStarving) {
       this.view.appendLog(
         LOG_MESSAGES.STARVATION(playedDay, RULES.STARVATION_HP_LOSS),
