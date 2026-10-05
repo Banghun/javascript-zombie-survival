@@ -2,12 +2,14 @@
 
 ## 폴더 구조
 
+```text
 src/
-├── index.js # 진입점
-├── constants/ # 규칙, 카드, 엔딩, 로그 메시지
-├── model/ # Player, Deck, Game
-├── view/ # GameView
-└── controller/ # GameController
+├── index.js           # 진입점
+├── constants/         # 규칙, 카드, 엔딩, 로그 메시지
+├── model/             # Player, Deck, Game
+├── view/              # GameView
+└── controller/        # GameController
+```
 
 ## 기능 목록
 
