@@ -2,13 +2,22 @@
 
 ## 폴더 구조
 
-```text
+```
 src/
-├── index.js           # 진입점
-├── constants/         # 규칙, 카드, 엔딩, 로그 메시지
-├── model/             # Player, Deck, Game
-├── view/              # GameView
-└── controller/        # GameController
+├── index.js                     # 진입점: Model, View, Controller를 연결하고 게임 시작
+├── constants/
+│   ├── rules.js                 # 게임 규칙 수치 (초기값, 일일 소모량, 엔딩 조건, 로딩 시간)
+│   ├── cards.js                 # 카드 6종 데이터 (이름, 장수, 설명, 선택지 효과)
+│   ├── endings.js               # 엔딩 이름 (사망 / 좀비화 / 치료 성공 / 구조 성공 / 생존 성공 / 포기)
+│   └── messages.js              # 로그 메시지 (LOG_MESSAGES)
+├── model/
+│   ├── Player.js                # 플레이어 스탯 관리 (체력, 식량, 감염도, 치료, 구조)
+│   ├── Deck.js                  # 카드 덱 생성, 셔플, 뽑기, 리셔플
+│   └── Game.js                  # 하루 진행, 기아 판정, 엔딩 판정
+├── view/
+│   └── GameView.js              # 화면 그리기, 버튼 이벤트 연결
+└── controller/
+    └── GameController.js        # 사용자 입력을 받아 Model과 View를 연결
 ```
 
 ## 기능 목록
