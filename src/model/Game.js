@@ -53,6 +53,14 @@ class Game {
     throw new Error(`알 수 없는 선택지입니다: ${choiceKey}`);
   }
 
+  // 고른 선택지를 저장해 두고, 결과가 반영될 때까지 다른 행동을 받지 않는다.
+  selectChoice(choiceKey) {
+    this.selectedChoice = this.getChoiceByKey(choiceKey);
+    this.lastPlayedDay = this.currentDay;
+    this.phase = PHASES.WAITING_RESULT;
+    return this.selectedChoice;
+  }
+
   // 기아가 발생했는지 반환한다. (컨트롤러가 기아 로그를 남길 때 사용)
   playDay() {
     this.player.applyCardEffects(this.selectedChoice.effects);
@@ -74,7 +82,6 @@ class Game {
   }
 
   moveToNextDay() {
-    this.lastPlayedDay = this.currentDay;
     this.currentDay += 1;
   }
 
