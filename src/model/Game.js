@@ -40,13 +40,6 @@ class Game {
     if (choiceKey === 'A') {
       return this.currentCard.choiceA;
     }
-    return this.currentCard.choiceB;
-  }
-
-  getChoiceByKey(choiceKey) {
-    if (choiceKey === 'A') {
-      return this.currentCard.choiceA;
-    }
     if (choiceKey === 'B') {
       return this.currentCard.choiceB;
     }

@@ -27,7 +27,6 @@ class GameController {
 
   handleDrawClick() {
     if (!this.game.canDraw()) {
-      // 뽑기에도 가드 추가
       return;
     }
 
